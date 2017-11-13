@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width= device-width, initial-scale=1">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="">
+	<style>
+
+		* {
+			box-sizing: border-box;
+			padding:0;
+			margin:0;
+		}
+		.container{
+			width: 800px;
+			height: 800px;
+			border: 2px solid black;
+			margin: auto;
+			margin-top: 5%;
+			padding: 5%;
+			text-align: center;
+		}
+
+		form {
+			margin: 20px 0 0 20px;
+		}
+		.hide {
+			display: none;
+		}
+		table {
+			width: 70%;
+			margin: auto;
+			border-spacing: 0;
+			border-collapse: collapse;
+		}
+		th {
+			padding: auto;
+		}
+		tr {
+			width: 100%;
+			margin:0;
+		}
+		td {
+			border: 1px solid black;
+			text-align: center;
+		}
+		td:hover{
+			background-color: lightblue;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="container">
+
+ 		<form action="get grid info" id='gridform'>
+			<label for="grid">Enter the grid dimensions (e.g. 10 for a 10x10 grid)</label>
+			<br>
+			<input id="grid" type="text" name = "gridinfo" placeholder="10" autofocus>
+		</form>
+
+		<table id="board">
+		</table>
+	</div>
+
+	<script src="js/jquery-1.10.2.js"></script>
+	<script>
+
+		var ginfo = document.getElementById('grid');
+		var finfo = document.getElementById('gridform');
+		var chosenGrid=0;
+
+		// get grid dimension information and then hide the form
+		ginfo.addEventListener("keydown",function(e){
+			if (e.which ===13) {
+				e.preventDefault();
+				chosenGrid = ginfo.value;
+				finfo.className += 'hide';
+			}
+
+			var tinfo = document.getElementById('board');
+			var tableString = "";
+
+			//make grid
+			if (chosenGrid>0) {
+				var gridRow= ['A','B','C','D','E','F','G','H','I','J','K','l','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+				
+				for (var y = 0; y <= chosenGrid; y++){
+					tableString+= "<tr>"
+					if (y==0){
+						for (var z= 0; z<=chosenGrid; z++){
+							if (z==0){
+								tableString+="<th></th>";
+							}else{
+								tableString+="<th>"+ z +"</th>";
+							}							
+						}
+					}else{
+						tableString+="<th>" + gridRow[y-1] + "</th>";
+						for (var x= 1; x<=chosenGrid; x++){
+							tableString+="<td></td>";
+						}
+						
+					}
+					tableString += "</tr>";					
+				}
+
+				tinfo.innerHTML = tableString;
+
+				var trw = $('tr').outerWidth();
+
+				var cw = Math.floor(trw / chosenGrid);
+				console.log(cw);
+				$('td').width(cw+'px');
+				var tw = $('td').width();
+				console.log(tw);
+				$('td').height(tw+'px');
+
+			}
+
+		});
+
+	</script>
+
+</body>
+</html>
